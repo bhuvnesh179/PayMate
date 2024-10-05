@@ -9,5 +9,7 @@ app.use(express.json());
 
 app.use("/api/v1", rootRouter);
 
+app.
+
 app.listen(3000);   
 
