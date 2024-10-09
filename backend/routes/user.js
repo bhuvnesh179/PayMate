@@ -1,9 +1,9 @@
 const express = require("express");
 const zod = require("zod");
-const User = require("../db");
-const Account = require("../db");
+const {User} = require("../db");
+const {Account} = require("../db");
+const {JWT_SECRET} = require("../config");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../config");
 const authMiddleware = require("../middleware");
 
 const router = express.Router();
@@ -29,8 +29,8 @@ const updateschema = zod.object({
 router.post("/signup", async (req, res) => {
     const response = signupschema.safeParse(req.body);
 
-    if(!response.success){
-        res.status(411).json({
+    if(!response.success){  
+        return res.status(411).json({
             message: "Email already taken / Incorrect inputs"
         })
     }
@@ -39,7 +39,7 @@ router.post("/signup", async (req, res) => {
         userName: req.body.userName
     })
 
-    if(user._id){
+    if(user){
         return res.json({
            message: "Email already taken / Incorrect inputs"
         })
@@ -89,19 +89,20 @@ router.post("/signin", async (req, res) => {
 })
 
 
-router.put("/", authMiddleware, async (req, res) => {
-    const response = updateschema.safeParse(req.body);
-    if(!response.success){
-        res.status(411).json({
-            message: "Error while updating information"
-        })
-    }
+    router.put("/", authMiddleware, async (req, res) => {
+        const response = updateschema.safeParse(req.body);
+        if(!response.success){
+            res.status(411).json({
+                message: "Error while updating information"
+            })
+        }
 
-    await User.updateOne({_id: userId}, req.body);
-    res.json({
-        message: "Updated successfully"
-    })
-})
+        await User.updateOne({_id: req.userId}, req.body);
+        res.json({
+            message: "Updated successfully"
+        })
+    })  
+
 
 router.get("/bulk", async (req, res) => {
     const filter = req.query.filter || "";

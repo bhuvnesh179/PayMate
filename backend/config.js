@@ -1,2 +1,2 @@
 const JWT_SECRET = "bansal";
-moudle.exports = JWT_SECRET ;
+module.exports = {JWT_SECRET} ;
