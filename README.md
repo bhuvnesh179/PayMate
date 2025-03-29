@@ -1,7 +1,7 @@
 
 ### Project Overview
 
-This project is a basic version of PayTM, a popular digital wallet and payment system. The application is built using modern web technologies and follows a full-stack development approach.
+This project is a basic version of Transaction WebApp, a popular digital wallet and payment system. The application is built using modern web technologies and follows a full-stack development approach.
 
 ### Technologies Used
 
