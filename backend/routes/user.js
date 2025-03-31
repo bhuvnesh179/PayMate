@@ -62,7 +62,8 @@ router.post("/signup", async (req, res) => {
 })
 
 router.post("/signin", async (req, res) => {
-    const response = singinschema.safeParse(req.body);
+    try{
+        const response = singinschema.safeParse(req.body);
     if(!response.success){
         res.status(411).json({
             message: "Error while logging in"
@@ -85,7 +86,11 @@ router.post("/signin", async (req, res) => {
         message: "Error while logging in"
     })
 
-
+    } catch(error){
+        res.status(500).json({
+            message : "Internal Server Error"
+        });
+    }
 })
 
 
